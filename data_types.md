@@ -34,7 +34,7 @@ int array2 [8][4];      // compact declaration
 array2[7][3] = 1;       // set last array element
 ```
 
-If your code accidently tries to read from an out of bounds address, SV will return the default value for the array element type.
+:memo: **Note** If your code accidently tries to read from an out of bounds address, SV will return the default value for the array element type.
 
 Default value for 4-State variables is "x".
 Default value for 2-State variables is "0".
@@ -42,7 +42,7 @@ Default value for 2-State variables is "0".
 ##### 2-) Unpacked Array:
 
 ```
-bit [7:0]             b_unpack [3];
+bit [7:0] b_unpack [3];
 ```
 
 Why is it named as unpacked?
@@ -50,3 +50,4 @@ Why is it named as unpacked?
 Because some of the parts in memory cannot be used.
 
 ![](images/unpacked_array.png)
+
