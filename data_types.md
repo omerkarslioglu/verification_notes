@@ -82,3 +82,112 @@ $displayh(bytes,,                 // Show all 32-bits
 ```
 
 ![](images/packed_array.png)
+
+##### 3-) Mixed Packed/Unpacked Array:
+
+```
+bit [3:0][7:0] marray [5];
+```
+
+![](images/mixed_array.png)
+
+#### non-Fixed Size Arrays
+
+##### 1-) Dynamic Arrays
+
+It is not fixed size array. Its size is determined, after using new constructor.
+
+```
+int dyn_arr[];
+initial begin
+  dyn_arr = new[5];
+end
+```
+
+Initializing dynamic array example:
+```
+bit [7:0] mask [] = `{8'b0000_00011, 8'b0010_0101};
+```
+
+Multi-dimension example:
+
+```
+int d[][];
+initial begin
+  dyn_arr = new[5];
+
+  foreach(d[i])
+    d[i] = new[i+1];
+end
+```
+
+##### 2-) Queues Arrays
+
+Like linked list, you can add or remove elements anywhere in a queue.
+
+```
+int j=1;
+int q2[$] = {3,4};  // don't use ' when initializing
+int q[$] = {0,2,3};
+
+initial begin
+  q.insert(1,j);    // {0,1,2,3}    Insert j before element #1
+  q.delete(1);      // {0,2,3}      Delete element #1
+
+  q.push_front(6);  // {6,0,2,3}    Insert the value front
+  j = q.pop_back;   // {6,0,2}      j = 3
+end
+```
+
+:memo: **Note**: You can not assign a queue to another queue. But you can copy dynamic array or fixed array to queue.
+
+##### 3-) Associative Arrays
+
+Dynamic arrays are good if you want to occasionally create a big array, but what if you want something really large? Perhaps you are modeling a processor that has a multi-gigabyte address range.
+
+During a typical test, the processor may only touch a few hundred or thousand memory locations containing executable code and data, so allocating and initializing gigabytes of storage is wasteful. 
+
+In an example: Just think an array that you don't use the addresses of this array.
+
+```
+  byte assoc [byte];      // notice that there is data type in parantheses
+  initial begin
+    assoc[100] = 1;
+    assoc[50]  = 2;
+
+    foreach(assoc[i])
+      $display("assoc[%h] = %h", i, assoc[i]);
+    
+  end
+```
+
+Output will be:
+```
+assoc[100] = 1;
+assoc[50]  = 2;
+```
+
+Another initializing method:
+```
+  int aa[int] = `{0:1, 10:4};   // aa[0] = 1 and aa[10] = 4
+```
+
+Some of the array's methods:
+
+- sum()
+- product()
+- and()
+- min()
+- max()
+- unique() // takes once repeated elements
+- reverse()
+- sort()
+- rsort()
+- shuffle() 
+- find_index with (item > 3) // finds the elements' indexes that are greater than 3
+
+Random elemen choosing:
+
+```
+$urandom_range($size(arr)-1);
+```
