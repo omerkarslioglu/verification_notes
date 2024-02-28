@@ -28,11 +28,11 @@ bit [ADDR_WIDTH-1:0]  addr;
 Initializing arrays:
 ```
 initial begin
-  static int arr[4]   = '{0,1,2,3,4};            // Initialize 4 elements
+  static int arr[4]   = '{0,1,2,3,4};           // Initialize 4 elements
   
-  arr[0:2]            = '{1,2,3};         // Set just first 3 elements
-  arr                 = '{4{8}};          // All elements will become 8
-  arr                 = '{default:8};     // All elements will become 8
+  arr[0:2]            = '{1,2,3};               // Set just first 3 elements
+  arr                 = '{4{8}};                // All elements will become 8
+  arr                 = '{default:8};           // All elements will become 8
 end
 ```
 
@@ -41,15 +41,21 @@ end
 ##### 1-) Multi-dimensional Arrays
 
 ```
-int array1 [0:7][0:3];  // verbose declaration
-int array2 [8][4];      // compact declaration
-array2[7][3] = 1;       // set last array element
+int array1 [0:1][0:2];                          // verbose declaration
+int array2 [2][3] = `{`{0,1,2},`{3,4,5}};       // compact declaration and initializing
+array2[1][2] = 1;                               // set last array element
 ```
+
+You can also use some loops (eg. foreach, for etc.) to initialize arrays.
 
 :memo: **Note**: If your code accidently tries to read from an out of bounds address, SV will return the default value for the array element type.
 
 Default value for 4-State variables is "x".
 Default value for 2-State variables is "0".
+
+Comparing arrays is possible checking operations (eg. "==", "!=").
+
+To perform some arithmetic such ass addition or division, we can use loops.
 
 ##### 2-) Unpacked Array:
 
@@ -63,3 +69,16 @@ Because some of the parts in memory cannot be used.
 
 ![](images/unpacked_array.png)
 
+
+##### 3-) Packed Array:
+
+```
+bit [3:0][7:0] bytes;             // 4 bytes packed into 32-bits
+bytes = 32'hCAFE_DADA;
+
+$displayh(bytes,,                 // Show all 32-bits
+          bytes[3],,              // "CA"
+          bytes[3][7]);           // Most significant bit "1" of "CA"
+```
+
+![](images/packed_array.png)
