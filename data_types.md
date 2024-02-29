@@ -136,6 +136,8 @@ initial begin
 
   q.push_front(6);  // {6,0,2,3}    Insert the value front
   j = q.pop_back;   // {6,0,2}      j = 3
+
+  q.delete();       // delete queue
 end
 ```
 
